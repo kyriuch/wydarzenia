@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserRegisterDto } from '../../../shared/dtos/user-register.dto';
 import { AuthService } from '../../../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -40,15 +41,22 @@ export class RegisterFormComponent implements OnInit {
   }
 
   submitForm() {
+    if (this.userRegister.password !== this.repeatedPassword) {
+      this.error = 'Podane hasła nie pasują do siebie.';
+
+      return;
+    }
+
     this.loading = true;
 
     this.auth.register(this.userRegister).subscribe(data => {
-      console.log(data);
       this.loading = false;
     }, (err: HttpErrorResponse) => {
-      this.error = err.error.toString();
+      this.error = err.error;
+
+      interval(3000).subscribe(() => this.error = null);
+
       this.loading = false;
-      console.log(err);
     });
   }
 

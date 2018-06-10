@@ -8,9 +8,13 @@ namespace Wydarzenia.Account.Dtos
 {
     public class UserLogin
     {
-		[Required, MinLength(6), MaxLength(32)]
+		[Required(ErrorMessage = "Login jest wymagany."),
+			MinLength(6, ErrorMessage = "Minimalna długośc loginu 6 znaków."),
+			MaxLength(32, ErrorMessage = "Maksymalna długość loginu to 32 znaki.")]
 		public string Login { get; set; }
-		[Required, MinLength(6), MaxLength(32)]
+		[Required(ErrorMessage = "Hasło jest wymagane."),
+			MinLength(6, ErrorMessage = "Minimalna długośc hasła 6 znaków."),
+			MaxLength(32, ErrorMessage = "Maksymalna długość hasła to 32 znaki.")]
 		public string Password { get; set; }
     }
 }

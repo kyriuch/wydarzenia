@@ -28,12 +28,12 @@ namespace Wydarzenia.Account.Services
 		{
 			if(dataContext.Users.Any(x => x.Login == userRegister.Login))
 			{
-				throw new AppException("Podany login jest zajęty");
+				throw new AppException("Podany login jest zajęty.");
 			}
 
 			if (dataContext.Users.Any(x => x.Email == userRegister.Email))
 			{
-				throw new AppException("Podany email jest zajęty");
+				throw new AppException("Podany email jest zajęty.");
 			}
 
 			User user = mapper.Map<User>(userRegister);
@@ -53,7 +53,7 @@ namespace Wydarzenia.Account.Services
 
 			if (user == null)
 			{
-				throw new AppException("Konto nie istnieje");
+				throw new AppException("Złe dane logowania.");
 			}
 
 			return mapper.Map<UserOut>(user);

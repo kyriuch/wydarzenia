@@ -1,6 +1,10 @@
 <div class="container has-text-centered">
   <div class="columns">
     <div class="column is-4 is-offset-4">
+      <div class="notification is-danger" *ngIf="error">
+        <button class="delete" (click)="error = null;"></button>
+        {{ error }}
+      </div>
       <div class="box">
         <form>
           <div class="field">
