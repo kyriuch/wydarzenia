@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserLoginDto } from '../../../shared/dtos/user-login.dto';
 import { AuthService } from '../../../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { interval } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -16,7 +16,7 @@ export class LoginFormComponent implements OnInit {
   loading: boolean;
   error: string;
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.passwordType = 'password';
@@ -41,11 +41,13 @@ export class LoginFormComponent implements OnInit {
 
     this.auth.login(this.userLogin)
     .subscribe((data) => {
+      this.error = null;
+
       this.loading = false;
+
+      this.router.navigateByUrl('/signForEvent');
     }, (err: HttpErrorResponse) => {
       this.error = err.error;
-
-      interval(3000).subscribe(() => this.error = null);
 
       this.loading = false;
     });

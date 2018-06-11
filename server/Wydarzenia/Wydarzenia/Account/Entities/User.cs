@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
@@ -12,6 +13,8 @@ namespace Wydarzenia.Account.Entities
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string Email { get; set; }
+		public int LoginTries { get; set; }
+		public DateTime BlockExpirationTime { get; set; }
 		public string MappedRoles
 		{
 			get { return string.Join(",", Roles); }

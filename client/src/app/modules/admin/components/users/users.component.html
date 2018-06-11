@@ -1,0 +1,20 @@
+<table class="table is-fullwidth">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Imię</th>
+      <th>Nazwisko</th>
+      <th>Email</th>
+      <th>Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users" [attr.data-index]="user.id">
+      <th>{{user.id}}</th>
+      <th>{{user.firstName}}</th>
+      <th>{{user.lastName}}</th>
+      <th>{{user.email}}</th>
+      <th>{{user.roles}}</th>
+    </tr>
+  </tbody>
+</table>

@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Events\Controllers\" />
+    <Folder Include="Events\Services\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

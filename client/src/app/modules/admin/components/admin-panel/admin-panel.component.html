@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="columns">
+    <div class="column is-3">
+      <div class="columns">
+        <div class="column">
+          <p class="control">
+            <a class="button button is-info is-outlined is-medium" routerLink="/adminPanel/users">
+              <span class="icon">
+                <i class="fas fa-user-edit"></i>
+              </span>
+              <span>
+                Użytkownicy
+              </span>
+            </a>
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <p class="control">
+            <a class="button button is-info is-outlined is-medium" routerLink="/adminPanel/events">
+              <span class="icon">
+                <i class="fas fa-list-ul"></i>
+              </span>
+              <span>
+                Wydarzenia
+              </span>
+            </a>
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column">
+          <p class="control">
+            <a class="button button is-info is-outlined is-medium" routerLink="/adminPanel/signs">
+              <span class="icon">
+                <i class="fas fa-user-check"></i>
+              </span>
+              <span>
+                Zapisy
+              </span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

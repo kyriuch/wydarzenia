@@ -19,7 +19,7 @@ namespace Wydarzenia.Account.Controllers
 		}
 
 		[HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegister user)
+        public IActionResult Register([FromBody] UserRegister user)
 		{
 			if(!ModelState.IsValid)
 			{
@@ -48,7 +48,7 @@ namespace Wydarzenia.Account.Controllers
 		}
 
 		[HttpPost("login")]
-		public async Task<IActionResult> Login([FromBody] UserLogin userLogin)
+		public IActionResult Login([FromBody] UserLogin userLogin)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -77,6 +77,12 @@ namespace Wydarzenia.Account.Controllers
 			{
 				return BadRequest(ex.Message);
 			}
+		}
+
+		[HttpGet("users")]
+		public IActionResult GetUsers()
+		{
+			return Ok(accountService.GetUsers());
 		}
     }
 }

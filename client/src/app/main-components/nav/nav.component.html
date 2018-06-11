@@ -1,4 +1,14 @@
-<div class="field is-grouped is-pulled-right">
+<div class="field is-grouped is-pulled-right" *ngIf="isUserAGuest();">
+    <p class="control">
+        <a class="button button is-primary is-outlined is-medium" routerLink="">
+          <span class="icon">
+            <i class="fas fa-sign-in-alt"></i>
+          </span>
+          <span>
+            Zaloguj się
+          </span>
+        </a>
+      </p>
   <p class="control">
     <a class="button is-primary is-outlined is-medium" routerLink="/register">
       <span class="icon">
@@ -9,13 +19,55 @@
       </span>
     </a>
   </p>
-  <p class="control">
-    <a class="button button is-primary is-outlined is-medium" routerLink="">
+</div>
+<div class="field is-grouped is-pulled-right" *ngIf="isUserAUser();">
+  <p class="control" *ngIf="isUserAnAdmin();">
+    <a class="button is-primary is-outlined is-medium" routerLink="/adminPanel">
       <span class="icon">
-        <i class="fas fa-sign-in-alt"></i>
+        <i class="fas fa-cogs"></i>
       </span>
       <span>
-        Zaloguj się
+        Panel administracyjny
+      </span>
+    </a>
+  </p>
+  <p class="control">
+    <a class="button is-primary is-outlined is-medium" routerLink="/signForEvent">
+      <span class="icon">
+        <i class="fas fa-users"></i>
+      </span>
+      <span>
+        Liczba osób
+      </span>
+    </a>
+  </p>
+  <p class="control">
+    <a class="button is-primary is-outlined is-medium" routerLink="/signForEvent">
+      <span class="icon">
+        <i class="fas fa-receipt"></i>
+      </span>
+      <span>
+        Wydarzenia
+      </span>
+    </a>
+  </p>
+  <p class="control">
+    <a class="button is-primary is-outlined is-medium" routerLink="/signForEvent">
+      <span class="icon">
+        <i class="fas fa-address-card"></i>
+      </span>
+      <span>
+        Zapisz na wydarzenie
+      </span>
+    </a>
+  </p>
+  <p class="control">
+    <a class="button button is-primary is-outlined is-medium" (click)="logout();">
+      <span class="icon">
+        <i class="fas fa-sign-out-alt"></i>
+      </span>
+      <span>
+        Wyloguj
       </span>
     </a>
   </p>

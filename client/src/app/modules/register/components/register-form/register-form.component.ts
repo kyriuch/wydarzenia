@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserRegisterDto } from '../../../shared/dtos/user-register.dto';
 import { AuthService } from '../../../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { interval } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -17,7 +17,7 @@ export class RegisterFormComponent implements OnInit {
   loading: boolean;
   error: string;
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.passwordType = 'password';
@@ -50,11 +50,13 @@ export class RegisterFormComponent implements OnInit {
     this.loading = true;
 
     this.auth.register(this.userRegister).subscribe(data => {
+      this.error = null;
+
       this.loading = false;
+
+      this.router.navigateByUrl('/signForEvent');
     }, (err: HttpErrorResponse) => {
       this.error = err.error;
-
-      interval(3000).subscribe(() => this.error = null);
 
       this.loading = false;
     });

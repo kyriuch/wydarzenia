@@ -14,6 +14,7 @@ namespace Wydarzenia.Account.Profiles
 		{
 			CreateMap<UserRegister, User>();
 			CreateMap<User, UserOut>();
+			CreateMap<List<User>, List<UserOut>>();
 		}
     }
 }

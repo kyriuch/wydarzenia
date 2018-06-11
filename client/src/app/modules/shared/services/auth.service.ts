@@ -11,16 +11,41 @@ import { User } from '../models/user.model';
 })
 export class AuthService {
 
-  private user: BehaviorSubject<User>;
+  user: BehaviorSubject<User>;
+
+  private initialized: boolean;
 
   constructor(private http: HttpClient) {
     this.user = new BehaviorSubject(null);
+    this.initialized = false;
+    this.init().subscribe(user => {
+      this.user.next(user);
+      this.initialized = true;
+    });
+  }
+
+  init(): Observable<User> {
+    if (this.initialized === undefined) {
+      this.initialized = false;
+    }
+
+    if (this.initialized) {
+      return of(this.user.value).pipe(tap(() => this.initialized = true));
+    }
+
+    const userStringified = window.localStorage.getItem('user');
+
+    if (userStringified === null) {
+      return of(null).pipe(tap(() => this.initialized = true));
+    }
+
+    return of(JSON.parse(userStringified)).pipe(tap(() => this.initialized = true));
   }
 
   register(userRegisterDto: UserRegisterDto): Observable<User> {
-    let httpHeaders = new HttpHeaders();
-    httpHeaders = httpHeaders.append('Content-Type', 'application/json');
-    httpHeaders = httpHeaders.append('Accept', 'application/json');
+    const httpHeaders = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
 
     return this.http.post<User>(
       'http://localhost:62056/api/account/register',
@@ -33,9 +58,9 @@ export class AuthService {
   }
 
   login(userLoginDto: UserLoginDto): Observable<User> {
-    let httpHeaders = new HttpHeaders();
-    httpHeaders = httpHeaders.append('Content-Type', 'application/json');
-    httpHeaders = httpHeaders.append('Accept', 'application/json');
+    const httpHeaders = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
 
     return this.http.post<User>(
       'http://localhost:62056/api/account/login',
@@ -48,6 +73,7 @@ export class AuthService {
   }
 
   logout() {
+    window.localStorage.removeItem('user');
     this.user.next(undefined);
   }
 
@@ -59,15 +85,8 @@ export class AuthService {
     return of(false);
   }
 
-  hasUserRole(role: string): Observable<boolean> {
-    if (!this.user) {
-      return of(false);
-    }
-
-    return of(this.user.value.roles.indexOf(role) >= 0);
-  }
-
   private authenticate(user: User) {
+    window.localStorage.setItem('user', JSON.stringify(user));
     this.user.next(user);
   }
 }
