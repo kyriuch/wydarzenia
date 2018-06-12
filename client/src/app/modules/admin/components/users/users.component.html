@@ -9,12 +9,103 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users" [attr.data-index]="user.id">
-      <th>{{user.id}}</th>
-      <th>{{user.firstName}}</th>
-      <th>{{user.lastName}}</th>
-      <th>{{user.email}}</th>
-      <th>{{user.roles}}</th>
-    </tr>
+    <ng-container *ngFor="let user of users; let i = index;" [attr.data-index]="user.id">
+      <tr (click)="selectRow(i);" [ngClass]="{'is-selected':isRowSelected(i)}">
+        <th>{{user.id}}</th>
+        <th>{{user.firstName}}</th>
+        <th>{{user.lastName}}</th>
+        <th>{{user.email}}</th>
+        <th>{{user.roles}}</th>
+      </tr>
+    </ng-container>
+
   </tbody>
 </table>
+<div class="columns">
+  <div class="column is-6">
+    <button class="button is-info is-medium is-fullwidth">
+      Usuń
+    </button>
+  </div>
+  <div class="column is-6">
+    <button class="button is-info is-medium is-fullwidth">
+      Zresetuj hasło
+    </button>
+  </div>
+</div>
+<div class="columns">
+  <div class="column is-6 is-offset-3">
+    <div class="notification is-danger" *ngIf="error">
+      <button class="delete" (click)="error = null;"></button>
+      {{ error }}
+    </div>
+    <div class="box has-text-centered">
+      <h1 class="is-size-3">
+        Dodaj nowego użytkownika
+      </h1>
+      <form>
+        <div class="field">
+          <div class="control has-icons-left">
+            <input class="input is-large" type="text" placeholder="Login" autofocus="" [(ngModel)]="userRegister.login" name="login">
+            <span class="icon is-large is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control has-icons-left">
+            <input class="input is-large" [type]="passwordType" placeholder="Hasło" [(ngModel)]="userRegister.password" name="password">
+            <span class="icon is-large is-left">
+              <i class="fas fa-key"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control has-icons-left">
+            <input class="input is-large" [type]="passwordType" placeholder="Potwórz hasło" [(ngModel)]="repeatedPassword" name="repeatedPassword">
+            <span class="icon is-large is-left">
+              <i class="fas fa-key"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control has-icons-left">
+            <input class="input is-large" type="text" placeholder="Imię" [(ngModel)]="userRegister.firstName" name="firstName">
+            <span class="icon is-large is-left">
+              <i class="fas fa-users-cog"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control has-icons-left">
+            <input class="input is-large" type="text" placeholder="Nazwisko" [(ngModel)]="userRegister.lastName" name="lastName">
+            <span class="icon is-large is-left">
+              <i class="fas fa-users-cog"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control has-icons-left">
+            <input class="input is-large" type="text" placeholder="Email" [(ngModel)]="userRegister.email" name="email">
+            <span class="icon is-large is-left">
+              <i class="fas fa-at"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="checkbox">
+            <input type="checkbox" (change)="passwordCheckbox($event);"> Pokaż hasło
+          </label>
+        </div>
+        <a [ngClass]="{ 'is-loading': loading }" class="button is-block is-primary is-large is-fullwidth" type="button" (click)="submitForm();">
+          Załóż konto
+        </a>
+      </form>
+    </div>
+  </div>
+</div>

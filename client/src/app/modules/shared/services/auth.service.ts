@@ -42,7 +42,7 @@ export class AuthService {
     return of(JSON.parse(userStringified)).pipe(tap(() => this.initialized = true));
   }
 
-  register(userRegisterDto: UserRegisterDto): Observable<User> {
+  register(userRegisterDto: UserRegisterDto, registerAsAdmin: boolean = false): Observable<User> {
     const httpHeaders = new HttpHeaders()
       .append('Content-Type', 'application/json')
       .append('Accept', 'application/json');
@@ -53,7 +53,11 @@ export class AuthService {
       {
         headers: httpHeaders
       }).pipe(
-        tap(x => this.authenticate(x))
+        tap(x => {
+          if (!registerAsAdmin) {
+            this.authenticate(x);
+          }
+        })
       );
   }
 

@@ -13,6 +13,7 @@ namespace Wydarzenia.Account.Services
 		UserOut CreateAccount(UserRegister userRegister, bool isAdminAccount = false);
 		UserOut Login(UserLogin userLogin);
 		ICollection<UserOut> GetUsers();
+		UsersToDelete DeleteUsers(UsersToDelete usersToDelete);
 	}
 
 	public class AccountService : IAccountService
@@ -28,7 +29,7 @@ namespace Wydarzenia.Account.Services
 			this.emailService = emailService;
 		}
 
-		public  UserOut CreateAccount(UserRegister userRegister, bool isAdminAccount = false)
+		public UserOut CreateAccount(UserRegister userRegister, bool isAdminAccount = false)
 		{
 			if (dataContext.Users.Any(x => x.Login == userRegister.Login))
 			{
@@ -70,11 +71,11 @@ namespace Wydarzenia.Account.Services
 				throw new AppException("Konto jest zablokowane. Spróbuj ponownie później.");
 			}
 
-			if(userLogin.Password != user.Password)
+			if (userLogin.Password != user.Password)
 			{
 				user.LoginTries++;
 
-				if(user.LoginTries == 3)
+				if (user.LoginTries == 3)
 				{
 					user.BlockExpirationTime = DateTime.Now.AddMinutes(5);
 					user.LoginTries = 0;
@@ -105,6 +106,27 @@ namespace Wydarzenia.Account.Services
 			dataContext.Users.ToList().ForEach(x => users.Add(mapper.Map<UserOut>(x)));
 
 			return users;
+		}
+
+		public UsersToDelete DeleteUsers(UsersToDelete usersToDelete)
+		{
+			usersToDelete.UsersIds.ToList().ForEach(x =>
+			{
+				var user = dataContext.Users.Where(y => y.Id == x).FirstOrDefault();
+
+				if (user != null)
+				{
+					dataContext.Remove(user);
+				}
+				else
+				{
+					usersToDelete.UsersIds.Remove(x);
+				}
+			});
+
+			dataContext.SaveChanges();
+
+			return usersToDelete;
 		}
 	}
 }

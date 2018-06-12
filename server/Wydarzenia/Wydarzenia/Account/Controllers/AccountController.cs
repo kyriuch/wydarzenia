@@ -9,8 +9,8 @@ using Wydarzenia.Account.Services;
 namespace Wydarzenia.Account.Controllers
 {
 	[Route("api/[controller]")]
-    public class AccountController : Controller
-    {
+	public class AccountController : Controller
+	{
 		IAccountService accountService;
 
 		public AccountController(IAccountService accountService)
@@ -19,13 +19,13 @@ namespace Wydarzenia.Account.Controllers
 		}
 
 		[HttpPost("register")]
-        public IActionResult Register([FromBody] UserRegister user)
+		public IActionResult Register([FromBody] UserRegister user)
 		{
-			if(!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				string errorMessage;
 
-				if(ModelState.Values.Select(x => x.Errors.Count > 0).ToList().Count > 1)
+				if (ModelState.Values.Select(x => x.Errors.Count > 0).ToList().Count > 1)
 				{
 					errorMessage = "Uzupełnij poprawnie formularz.";
 				}
@@ -84,5 +84,30 @@ namespace Wydarzenia.Account.Controllers
 		{
 			return Ok(accountService.GetUsers());
 		}
-    }
+
+		[HttpDelete("deleteusers")]
+		public IActionResult DeleteUsers([FromBody] UsersToDelete usersToDelete)
+		{
+			if (!ModelState.IsValid)
+			{
+				if (!ModelState.IsValid)
+				{
+					string errorMessage;
+
+					if (ModelState.Values.Select(x => x.Errors.Count > 0).ToList().Count > 1)
+					{
+						errorMessage = "Uzupełnij poprawnie formularz.";
+					}
+					else
+					{
+						errorMessage = ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage;
+					}
+
+					return BadRequest(errorMessage);
+				}
+			}
+
+			return Ok(accountService.DeleteUsers(usersToDelete));
+		}
+	}
 }
