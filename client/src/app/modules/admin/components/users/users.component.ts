@@ -63,7 +63,7 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  submitForm() {
+  submitForm(): void {
     if (this.userRegister.password !== this.repeatedPassword) {
       this.error = 'Podane hasła nie pasują do siebie.';
 
@@ -85,4 +85,30 @@ export class UsersComponent implements OnInit {
     });
   }
 
+  deleteUsers(): void {
+    if (this.selectedIndexes.length <= 0) {
+      return;
+    }
+
+    this.usersService.deleteUsers(this.selectedIndexes.map(x => this.users[x].id))
+      .subscribe(data => {
+        data.forEach(id => {
+          this.selectedIndexes = [];
+          this.users.splice(this.users.indexOf(this.users.find(x => x.id === id)), 1);
+        });
+      }, err => console.log);
+  }
+
+  restartPasswords(): void {
+    if (this.selectedIndexes.length <= 0) {
+      return;
+    }
+
+    this.usersService.restartPasswords(this.selectedIndexes.map(x => this.users[x].id))
+      .subscribe(data => {
+        data.forEach(id => {
+          this.selectedIndexes = [];
+        });
+      }, err => console.log);
+  }
 }

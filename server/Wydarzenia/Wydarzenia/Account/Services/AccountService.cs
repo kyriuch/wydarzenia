@@ -13,7 +13,8 @@ namespace Wydarzenia.Account.Services
 		UserOut CreateAccount(UserRegister userRegister, bool isAdminAccount = false);
 		UserOut Login(UserLogin userLogin);
 		ICollection<UserOut> GetUsers();
-		UsersToDelete DeleteUsers(UsersToDelete usersToDelete);
+		ICollection<int> DeleteUsers(int[] usersToDelete);
+		ICollection<int> RestartPasswords(int[] usersToHavePasswordRestarted);
 	}
 
 	public class AccountService : IAccountService
@@ -108,25 +109,28 @@ namespace Wydarzenia.Account.Services
 			return users;
 		}
 
-		public UsersToDelete DeleteUsers(UsersToDelete usersToDelete)
+		public ICollection<int> DeleteUsers(int[] ids)
 		{
-			usersToDelete.UsersIds.ToList().ForEach(x =>
-			{
-				var user = dataContext.Users.Where(y => y.Id == x).FirstOrDefault();
+			dataContext.Users.RemoveRange(dataContext.Users.Where(x => ids.Contains(x.Id)));
+			dataContext.SaveChanges();
 
-				if (user != null)
+			return ids;
+		}
+
+		public ICollection<int> RestartPasswords(int[] usersToHavePasswordRestarted)
+		{
+			dataContext.Users.
+				Where(x => usersToHavePasswordRestarted.Contains(x.Id)).
+				ToList().
+				ForEach(x =>
 				{
-					dataContext.Remove(user);
-				}
-				else
-				{
-					usersToDelete.UsersIds.Remove(x);
-				}
-			});
+					x.Password = "newpassword";
+					dataContext.Update(x);
+				});
 
 			dataContext.SaveChanges();
 
-			return usersToDelete;
+			return usersToHavePasswordRestarted;
 		}
 	}
 }

@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Wydarzenia.Account.Dtos;
 using Wydarzenia.Account.Services;
 
@@ -50,23 +47,21 @@ namespace Wydarzenia.Account.Controllers
 		[HttpPost("login")]
 		public IActionResult Login([FromBody] UserLogin userLogin)
 		{
+
 			if (!ModelState.IsValid)
 			{
-				if (!ModelState.IsValid)
+				string errorMessage;
+
+				if (ModelState.Values.Select(x => x.Errors.Count > 0).ToList().Count > 1)
 				{
-					string errorMessage;
-
-					if (ModelState.Values.Select(x => x.Errors.Count > 0).ToList().Count > 1)
-					{
-						errorMessage = "Uzupełnij poprawnie formularz.";
-					}
-					else
-					{
-						errorMessage = ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage;
-					}
-
-					return BadRequest(errorMessage);
+					errorMessage = "Uzupełnij poprawnie formularz.";
 				}
+				else
+				{
+					errorMessage = ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage;
+				}
+
+				return BadRequest(errorMessage);
 			}
 
 			try
@@ -86,28 +81,15 @@ namespace Wydarzenia.Account.Controllers
 		}
 
 		[HttpDelete("deleteusers")]
-		public IActionResult DeleteUsers([FromBody] UsersToDelete usersToDelete)
+		public IActionResult DeleteUsers(int[] ids)
 		{
-			if (!ModelState.IsValid)
-			{
-				if (!ModelState.IsValid)
-				{
-					string errorMessage;
+			return Ok(accountService.DeleteUsers(ids));
+		}
 
-					if (ModelState.Values.Select(x => x.Errors.Count > 0).ToList().Count > 1)
-					{
-						errorMessage = "Uzupełnij poprawnie formularz.";
-					}
-					else
-					{
-						errorMessage = ModelState.Values.FirstOrDefault().Errors.FirstOrDefault().ErrorMessage;
-					}
-
-					return BadRequest(errorMessage);
-				}
-			}
-
-			return Ok(accountService.DeleteUsers(usersToDelete));
+		[HttpPatch("restartpasswords")]
+		public IActionResult ResetPasswords([FromBody] int[] ids)
+		{
+			return Ok(accountService.RestartPasswords(ids));
 		}
 	}
 }

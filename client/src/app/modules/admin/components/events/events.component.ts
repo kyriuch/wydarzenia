@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-events',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EventsComponent implements OnInit {
 
+  selectedDate: moment.Moment;
+
   constructor() { }
 
   ngOnInit() {
+    this.selectedDate = moment();
   }
 
+  getPickedDate(): string {
+    return this.selectedDate.format('DD/MM/YYYY HH:mm');
+  }
 }

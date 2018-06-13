@@ -1,3 +1,35 @@
-<p>
-  events works!
-</p>
+<div class="box">
+  <div class="container is-fluid">
+    <div class="has-text-centered">
+      <h1 class="is-size-3">
+        Dodaj nowe wydarzenie
+      </h1>
+    </div>
+    <div class="columns">
+      <form class="column is-10 is-offset-1">
+        <div class="field">
+          <div class="control has-icons-left">
+            <input class="input is-large" type="text" placeholder="Nazwa wydarzenia" autofocus="">
+            <span class="icon is-large is-left">
+              <i class="fas fa-user"></i>
+            </span>
+          </div>
+        </div>
+        <div class="field">
+          <textarea class="textarea" placeholder="Agenda"></textarea>
+        </div>
+        <div class="field">
+          <app-datetime-picker [(selectedDate)]="selectedDate"></app-datetime-picker>
+        </div>
+        <div class="has-text-centered">
+          <h1 class="is-size-4">
+            {{ getPickedDate() }}
+          </h1>
+        </div>
+        <button class="button is-primary is-fullwidth is-medium">
+          Dodaj wydarzenie
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
