@@ -1,0 +1,6 @@
+<ng-container *ngIf="notification.message && notificationClass">
+  <div class="notification has-text-centered" [ngClass]="notificationClass">
+    <button class="delete" (click)="notification.message = null;"></button>
+    {{ notification.message }}
+  </div>
+</ng-container>

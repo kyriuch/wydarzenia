@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { NotificationService } from './services/notification.service';
 
 const sharedModules = [
   HttpClientModule,
@@ -17,7 +18,8 @@ const sharedModules = [
   exports: sharedModules,
   declarations: [],
   providers: [
-    AuthService
+    AuthService,
+    NotificationService
   ]
 })
 export class SharedModule { }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Wydarzenia.Account.Services;
+using Wydarzenia.Events.Services;
 using Wydarzenia.Global.Services;
 using Wydarzenia.Global.Settings;
 
@@ -34,6 +35,7 @@ namespace Wydarzenia
 			// configure DI Container
 			services.AddScoped<IAccountService, AccountService>();
 			services.AddScoped<IEmailService, EmailService>();
+			services.AddScoped<IEventsService, EventsService>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,8 +8,10 @@ import { SignForEventComponent } from '../events/components/sign-for-event/sign-
 import { AdminPanelComponent } from '../admin/components/admin-panel/admin-panel.component';
 import { AdminGuardService } from '../shared/services/admin-guard.service';
 import { UsersComponent } from '../admin/components/users/users.component';
-import { EventsComponent } from '../admin/components/events/events.component';
+import { EventsComponent as AdminEventsComponent } from '../admin/components/events/events.component';
+import { EventsComponent } from '../events/components/events/events.component';
 import { SignsComponent } from '../admin/components/signs/signs.component';
+import { PeopleComponent } from '../events/components/people/people.component';
 
 const routes: Routes = [
   {
@@ -28,6 +30,16 @@ const routes: Routes = [
     canActivate: [UserGuardService]
   },
   {
+    path: 'events',
+    component: EventsComponent,
+    canActivate: [UserGuardService]
+  },
+  {
+    path: 'people',
+    component: PeopleComponent,
+    canActivate: [PeopleComponent]
+  },
+  {
     path: 'adminPanel',
     component: AdminPanelComponent,
     canActivate: [AdminGuardService],
@@ -38,7 +50,7 @@ const routes: Routes = [
       },
       {
         path: 'events',
-        component: EventsComponent
+        component: AdminEventsComponent
       },
       {
         path: 'signs',
@@ -52,7 +64,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: 'signForEvent'
   },
 ];
 

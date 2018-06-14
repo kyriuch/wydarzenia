@@ -3,13 +3,14 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NotificationService, NotificationType } from './notification.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class GuestGuardService implements CanActivate {
 
-    constructor(private auth: AuthService, private router: Router) {
+    constructor(private auth: AuthService, private router: Router, private notificationService: NotificationService) {
 
     }
 
@@ -23,6 +24,13 @@ export class GuestGuardService implements CanActivate {
                 if (authUser.roles.indexOf('Admin') < 0 && authUser.roles.indexOf('User') < 0) {
                     return true;
                 }
+
+                this.notificationService.showNotification(
+                    {
+                        message: 'Jesteś już zalogowany.',
+                        type: NotificationType.Error
+                    }
+                );
 
                 this.router.navigateByUrl('/signForEvent');
                 return false;

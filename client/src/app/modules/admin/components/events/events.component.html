@@ -9,14 +9,14 @@
       <form class="column is-10 is-offset-1">
         <div class="field">
           <div class="control has-icons-left">
-            <input class="input is-large" type="text" placeholder="Nazwa wydarzenia" autofocus="">
+            <input class="input is-large" type="text" placeholder="Nazwa wydarzenia" autofocus="" [(ngModel)]="newEvent.eventName" name="eventName">
             <span class="icon is-large is-left">
               <i class="fas fa-user"></i>
             </span>
           </div>
         </div>
         <div class="field">
-          <textarea class="textarea" placeholder="Agenda"></textarea>
+          <textarea class="textarea" placeholder="Agenda" [(ngModel)]="newEvent.agenda" name="agenda"></textarea>
         </div>
         <div class="field">
           <app-datetime-picker [(selectedDate)]="selectedDate"></app-datetime-picker>
@@ -26,7 +26,7 @@
             {{ getPickedDate() }}
           </h1>
         </div>
-        <button class="button is-primary is-fullwidth is-medium">
+        <button class="button is-primary is-fullwidth is-medium" (click)="submitForm();">
           Dodaj wydarzenie
         </button>
       </form>

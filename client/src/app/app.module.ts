@@ -9,11 +9,13 @@ import { LoginModule } from './modules/login/login.module';
 import { RegisterModule } from './modules/register/register.module';
 import { EventsModule } from './modules/events/events.module';
 import { AdminModule } from './modules/admin/admin.module';
+import { NotificationComponent } from './main-components/notification/notification.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent
+    NavComponent,
+    NotificationComponent
   ],
   imports: [
     AppRouterModule,

@@ -1,3 +1,47 @@
-<p>
-  sign-for-event works!
-</p>
+<div class="columns">
+  <div class="column is-6 is-offset-3">
+    <div class="box">
+      <div class="container is-fluid">
+        <form>
+          <div class="control">
+            <div class="select is-fullwidth">
+              <select [(ngModel)]="selectedName" name="selectedName" (change)="updateCurrentEvent()">
+                <option *ngFor="let item of events; let i = index;" [attr.data-index]="item.id">
+                  {{ item.eventName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <ng-container *ngIf="events && events.length > 0">
+            <div class="my-margin">
+              <p class="my-margin is-size-5">Nazwa wydarzenia: {{ currentEvent.eventName }}</p>
+              <p class="my-margin is-size-5">Agenda: {{ currentEvent.agenda }}</p>
+              <p class="my-margin is-size-5">Zapisani użytkownicy: {{ getCurrentUsers() }}</p>
+              <p class="my-margin is-size-5">Data wydarzenia: {{ currentDate }}</p>
+            </div>
+            <div class="control my-margin">
+              <div class="select is-fullwidth">
+                <select [(ngModel)]="selectedParticipantType" name="participantType">
+                  <option>Słuchacz</option>
+                  <option>Autor</option>
+                  <option>Sponsor</option>
+                  <option>Organizator</option>
+                </select>
+              </div>
+            </div>
+            <div class="control my-margin">
+              <div class="select is-fullwidth">
+                <select [(ngModel)]="selectedFoodType" name="foodType">
+                  <option>Brak preferencji</option>
+                  <option>Wegetariańskie</option>
+                  <option>Bez glutenu</option>
+                </select>
+              </div>
+            </div>
+            <button class="button my-margin is-fullwidth is-primary" (click)="submitForm();">Zapisz się</button>
+          </ng-container>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { UserRegisterDto } from '../../../shared/dtos/user-register.dto';
 import { AuthService } from '../../../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { NotificationService, NotificationType } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-register-form',
@@ -17,7 +18,7 @@ export class RegisterFormComponent implements OnInit {
   loading: boolean;
   error: string;
 
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private auth: AuthService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.passwordType = 'password';
@@ -53,6 +54,13 @@ export class RegisterFormComponent implements OnInit {
       this.error = null;
 
       this.loading = false;
+
+      this.notificationService.showNotification(
+        {
+          message: 'Pomyślnie utworzono i zalogowano do konta.',
+          type: NotificationType.Success
+        }
+      );
 
       this.router.navigateByUrl('/signForEvent');
     }, (err: HttpErrorResponse) => {
