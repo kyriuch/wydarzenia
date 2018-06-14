@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Wydarzenia.Events.Dtos;
+using Wydarzenia.Events.Entities;
 using Wydarzenia.Events.Services;
 
 namespace Wydarzenia.Events.Controllers
@@ -57,9 +55,26 @@ namespace Wydarzenia.Events.Controllers
 		[HttpPost("addparticipant")]
 		public IActionResult AddParticipant([FromBody] NewParticipant newParticipant)
 		{
-			eventsService.AddParticipantToEvent(newParticipant);
+			Event myEvent = eventsService.AddParticipantToEvent(newParticipant);
+
+			if(myEvent == null)
+			{
+				return BadRequest("Coś poszło nie tak. Upewnij się, że nie jesteś już zapisany na to wydarzenie.");
+			}
 
 			return Ok();
+		}
+
+		[HttpGet("participantstoaccept")]
+		public IActionResult GetParticipantsToAccept()
+		{
+			return Ok(eventsService.GetParticipantsToAccept());
+		}
+
+		[HttpPost("acceptparticipant")]
+		public IActionResult AcceptParticipant([FromBody] ParticipantToAccept participantToAccept)
+		{
+			return Ok(eventsService.AcceptParticipant(participantToAccept));
 		}
     }
 }

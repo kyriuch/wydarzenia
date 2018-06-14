@@ -1,3 +1,15 @@
-<p>
-  signs works!
-</p>
+<div class="box">
+  <div class="container is-fluid">
+    <div class="columns" *ngFor="let item of participantsToAccept">
+      <div class="column is-10 is-offset-1">
+        <div class="box">
+          <p>Nazwa wydarzenia: {{ item.event.eventName }}</p>
+          <p>Użytkownik: {{ item.user.firstName + " " + item.user.lastName }}</p>
+          <p>Zapisany jako: {{ item.participant.participationType }}</p>
+          <p>Typ wyżywienia: {{ item.participant.foodType }} </p>
+          <button class="button is-primary" (click)="acceptUser(item)">Akceptuj</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Wydarzenia.Account.Dtos;
 using Wydarzenia.Account.Services;
+using Wydarzenia.Global.Helpers;
 
 namespace Wydarzenia.Account.Controllers
 {

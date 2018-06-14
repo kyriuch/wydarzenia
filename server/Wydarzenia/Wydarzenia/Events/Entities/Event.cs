@@ -12,6 +12,6 @@ namespace Wydarzenia.Events.Entities
 		public string EventName { get; set; }
 		public string Agenda { get; set; }
 		public DateTime Date { get; set; }
-		public ICollection<Participant> Participants { get; set; }
+		public virtual ICollection<Participant> Participants { get; set; }
 	}
 }

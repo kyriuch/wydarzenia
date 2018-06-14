@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Wydarzenia.Account.Dtos;
 using Wydarzenia.Account.Entities;
+using Wydarzenia.Global.Helpers;
 using Wydarzenia.Global.Services;
 
 namespace Wydarzenia.Account.Services

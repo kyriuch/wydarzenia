@@ -28,7 +28,6 @@ namespace Wydarzenia.Events.Entities
 		public bool IsParticipantAccepted { get; set; }
 		public ParticipationType ParticipationTypeValue { get; set; }
 		public FoodType FoodTypeValue { get; set; }
-		public Event Event { get; set; }
 
 		[NotMapped]
 		private static readonly string[] partTypes = new string[] { "Słuchacz", "Autor", "Sponsor", "Organizator" };

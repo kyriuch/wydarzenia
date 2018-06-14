@@ -29,8 +29,6 @@ export class UsersService {
 
     const endPoint = 'http://localhost:62056/api/account/deleteusers?ids=' + ids.toString().split(',').join('&ids=');
 
-    console.log(endPoint);
-
     return this.http.delete<number[]>(
       endPoint,
       {

@@ -27,7 +27,6 @@ export class SignForEventComponent implements OnInit {
     moment.locale('pl');
     this.eventsService.getEvents().subscribe((data => {
       this.events = data;
-      console.log(this.events);
 
       if (this.events.length > 0) {
         this.selectedParticipantType = 'Słuchacz';
