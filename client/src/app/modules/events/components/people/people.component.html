@@ -1,3 +1,17 @@
-<p>
-  people works!
-</p>
+<div class="container is-fluid">
+  <div class="box">
+    <div class="container is-fluid">
+      <div class="columns">
+        <div class="column is-10 is-offset-1">
+          <ng-container *ngIf="ready">
+            <div class="box" *ngFor="let item of events; let i = index;">
+              <p>Nazwa wydarzenia: {{ item.eventName }}</p>
+              <p>Liczba osób potwierdzonych: {{ getAcceptedPeople(i) }}</p>
+              <p>Liczba osób niepotwierdzonych {{ getRejectedPeople(i) }}</p>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

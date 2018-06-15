@@ -17,15 +17,18 @@ export class SignsComponent implements OnInit {
   ngOnInit() {
     this.eventsService.getParticipantsToAccept().subscribe(data => {
       this.participantsToAccept = data;
-      console.log(data);
     });
   }
 
   acceptUser(participant: ParticipantToAcceptDto) {
     this.eventsService.acceptParticipant(participant).subscribe(data => {
       if (data.participant.id === participant.participant.id) {
-        console.log(data);
-        console.log(participant);
+        this.notificationService.showNotification(
+          {
+            message: 'Pomyślnie zaakceptowano zapis.',
+            type: NotificationType.Success
+          }
+        );
         this.participantsToAccept.splice(this.participantsToAccept.indexOf(data), 1);
       }
     }, err => {
@@ -37,4 +40,27 @@ export class SignsComponent implements OnInit {
       );
     });
   }
+
+  rejectUser(participant: ParticipantToAcceptDto) {
+    this.eventsService.rejectParticipant(participant).subscribe(data => {
+      if (data.participant.id === participant.participant.id) {
+        this.notificationService.showNotification(
+          {
+            message: 'Pomyślnie odrzucono zapis.',
+            type: NotificationType.Success
+          }
+        );
+        this.participantsToAccept.splice(this.participantsToAccept.indexOf(data), 1);
+      }
+    }, err => {
+      this.notificationService.showNotification(
+        {
+          message: err.error,
+          type: NotificationType.Error
+        }
+      );
+    });
+  }
+
+
 }

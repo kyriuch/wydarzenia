@@ -37,7 +37,7 @@ const routes: Routes = [
   {
     path: 'people',
     component: PeopleComponent,
-    canActivate: [PeopleComponent]
+    canActivate: [UserGuardService]
   },
   {
     path: 'adminPanel',

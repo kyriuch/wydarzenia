@@ -25,6 +25,19 @@ export class EventsService {
     );
   }
 
+  getEventsWithParticipants(): Observable<Event[]> {
+    const httpHeaders = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+
+    return this.http.get<Event[]>(
+      'http://localhost:62056/api/event/eventswithparticipants',
+      {
+        headers: httpHeaders
+      }
+    );
+  }
+
   getEventUsers(event: Event): Observable<User[]> {
     const httpHeaders = new HttpHeaders()
       .append('Content-Type', 'application/json')

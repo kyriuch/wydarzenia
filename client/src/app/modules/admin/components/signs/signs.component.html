@@ -7,7 +7,14 @@
           <p>Użytkownik: {{ item.user.firstName + " " + item.user.lastName }}</p>
           <p>Zapisany jako: {{ item.participant.participationType }}</p>
           <p>Typ wyżywienia: {{ item.participant.foodType }} </p>
-          <button class="button is-primary" (click)="acceptUser(item)">Akceptuj</button>
+          <div class="columns">
+            <div class="column is-2">
+              <button class="button is-primary" (click)="acceptUser(item);">Akceptuj</button>
+            </div>
+            <div class="column is-2">
+              <button class="button is-warning" (click)="rejectUser(item);">Odrzuć</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

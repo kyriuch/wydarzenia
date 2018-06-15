@@ -49,4 +49,18 @@ export class EventsService {
       }
     );
   }
+
+  rejectParticipant(participant: ParticipantToAcceptDto): Observable<ParticipantToAcceptDto> {
+    const httpHeaders = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+
+    return this.http.post<ParticipantToAcceptDto>(
+      'http://localhost:62056/api/event/rejectparticipant',
+      participant,
+      {
+        headers: httpHeaders
+      }
+    );
+  }
 }

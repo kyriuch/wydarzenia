@@ -68,7 +68,7 @@ export class SignForEventComponent implements OnInit {
         participant: {
           foodType: this.selectedFoodType,
           userId: this.auth.user.value.id,
-          IsParticipantAccepted: this.auth.user.value.roles.indexOf('Admin') >= 0 ? true : false,
+          isParticipantAccepted: this.auth.user.value.roles.indexOf('Admin') >= 0 ? true : false,
           participationType: this.selectedParticipantType,
           id: 0
         },

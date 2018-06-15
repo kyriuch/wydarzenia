@@ -1,3 +1,19 @@
-<p>
-  events works!
-</p>
+<div class="container is-fluid">
+  <div class="box">
+    <div class="container is-fluid">
+      <div class="columns">
+        <div class="column is-10 is-offset-1">
+          <div class="box" *ngFor="let item of events">
+            <p>Nazwa wydarzenia: {{ item.eventName }}</p>
+            <p>Agenda: {{ item.agenda }}</p>
+            <p>Data wydarzenia: {{ item.date | date: "dd/MM/yyyy HH:mm" }}</p>
+            <p>Słuchacze: {{ getParticipants(item, "Słuchacz") }}</p>
+            <p>Autorzy: {{ getParticipants(item, "Autor") }}</p>
+            <p>Sponsorzy: {{ getParticipants(item, "Sponsor") }}</p>
+            <p>Organizatorzy: {{ getParticipants(item, "Organizator") }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,6 +7,7 @@ using Wydarzenia.Account.Dtos;
 using Wydarzenia.Events.Dtos;
 using Wydarzenia.Events.Entities;
 using Wydarzenia.Global.Helpers;
+using Wydarzenia.Global.Services;
 
 namespace Wydarzenia.Events.Services
 {
@@ -14,21 +15,25 @@ namespace Wydarzenia.Events.Services
 	{
 		void AddNewEvent(NewEvent newEvent);
 		ICollection<Event> GetEvents();
+		ICollection<Event> GetEventsWithParticipants();
 		ICollection<UserOut> GetUsers(int eventId);
 		Event AddParticipantToEvent(NewParticipant newParticipant);
 		ICollection<ParticipantToAccept> GetParticipantsToAccept();
 		ParticipantToAccept AcceptParticipant(ParticipantToAccept participantToAccept);
+		ParticipantToAccept RejectParticipant(ParticipantToAccept participantToAccept);
 	}
 
 	public class EventsService : IEventsService
 	{
 		DataContext dataContext;
 		IMapper mapper;
+		IEmailService emailService;
 
-		public EventsService(DataContext dataContext, IMapper mapper)
+		public EventsService(DataContext dataContext, IMapper mapper, IEmailService emailService)
 		{
 			this.dataContext = dataContext;
 			this.mapper = mapper;
+			this.emailService = emailService;
 		}
 
 		public void AddNewEvent(NewEvent newEvent)
@@ -42,6 +47,11 @@ namespace Wydarzenia.Events.Services
 		public ICollection<Event> GetEvents()
 		{
 			return dataContext.Events.ToList();
+		}
+
+		public ICollection<Event> GetEventsWithParticipants()
+		{
+			return dataContext.Events.Include(e => e.Participants).ToList();
 		}
 
 		public ICollection<UserOut> GetUsers(int eventId)
@@ -117,7 +127,37 @@ namespace Wydarzenia.Events.Services
 			Participant participant = myEvent.Participants.Where(x => x.Id == participantToAccept.Participant.Id).FirstOrDefault();
 			participant.IsParticipantAccepted = true;
 			participantToAccept.Participant.IsParticipantAccepted = true;
+			dataContext.Update(myEvent);
 			dataContext.SaveChanges();
+
+			emailService.SendMessage(participantToAccept.User.Email, "Przyjęto twoją prośbę o dołączenia do wydarzenia",
+				$"Witaj {participantToAccept.User.FirstName} {participantToAccept.User.LastName}. " +
+				$"Twoja prośba o dołączenie do wydarzenia {participantToAccept.Event.EventName} została przyjęta.");
+
+			return participantToAccept;
+		}
+
+		public ParticipantToAccept RejectParticipant(ParticipantToAccept participantToAccept)
+		{
+			Event myEvent = dataContext.Events
+				.Include(i => i.Participants)
+				.Where(x => x.Id == participantToAccept.Event.Id)
+				.FirstOrDefault();
+
+			myEvent.Participants
+				.Remove(
+					myEvent
+					.Participants
+					.Where(p => p.Id == participantToAccept.Participant.Id)
+					.FirstOrDefault()
+				);
+
+			dataContext.Update(myEvent);
+			dataContext.SaveChanges();
+
+			emailService.SendMessage(participantToAccept.User.Email, "Odrzucono twoją prośbę o dołączenia do wydarzenia",
+				$"Witaj {participantToAccept.User.FirstName} {participantToAccept.User.LastName}. " +
+				$"Niestety Twoja prośba o dołączenie do wydarzenia {participantToAccept.Event.EventName}.");
 
 			return participantToAccept;
 		}

@@ -1,7 +1,7 @@
 export interface Participant {
     id: number;
     userId: number;
-    IsParticipantAccepted: boolean;
+    isParticipantAccepted: boolean;
     participationType: string;
     foodType: string;
 }

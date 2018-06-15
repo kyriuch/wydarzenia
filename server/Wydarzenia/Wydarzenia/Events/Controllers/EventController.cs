@@ -46,6 +46,24 @@ namespace Wydarzenia.Events.Controllers
 			return Ok(eventsService.GetEvents());
 		}
 
+		[HttpGet("eventswithparticipants")]
+		public IActionResult GetEventsWithParticipants()
+		{
+			return Ok(eventsService.GetEventsWithParticipants());
+		}
+
+		[HttpGet("eventswithcount")]
+		public IActionResult GetEventsWithCount()
+		{
+			return Ok(eventsService.GetEventsWithParticipants()
+				.Select(x =>
+				new {
+					Event = x,
+					AcceptedParticipants = x.Participants.Where(y => y.IsParticipantAccepted).Count(),
+					RejectedParticipants = x.Participants.Where(y => !y.IsParticipantAccepted).Count()
+				}));
+		}
+
 		[HttpGet("users/{id}")]
 		public IActionResult GetUsers(int id)
 		{
@@ -76,5 +94,11 @@ namespace Wydarzenia.Events.Controllers
 		{
 			return Ok(eventsService.AcceptParticipant(participantToAccept));
 		}
-    }
+
+		[HttpPost("rejectparticipant")]
+		public IActionResult RejectParticipant([FromBody] ParticipantToAccept participantToAccept)
+		{
+			return Ok(eventsService.RejectParticipant(participantToAccept));
+		}
+	}
 }
