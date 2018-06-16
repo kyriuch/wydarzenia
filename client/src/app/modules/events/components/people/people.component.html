@@ -7,7 +7,7 @@
             <div class="box" *ngFor="let item of events; let i = index;">
               <p>Nazwa wydarzenia: {{ item.eventName }}</p>
               <p>Liczba osób potwierdzonych: {{ getAcceptedPeople(i) }}</p>
-              <p>Liczba osób niepotwierdzonych {{ getRejectedPeople(i) }}</p>
+              <p>Liczba osób niepotwierdzonych: {{ getRejectedPeople(i) }}</p>
             </div>
           </ng-container>
         </div>

@@ -35,9 +35,7 @@ namespace Wydarzenia.Events.Controllers
 				return BadRequest(errorMessage);
 			}
 
-			eventsService.AddNewEvent(newEvent);
-
-			return Ok();
+			return Ok(eventsService.AddNewEvent(newEvent));
 		}
 
 		[HttpGet("events")]
@@ -99,6 +97,12 @@ namespace Wydarzenia.Events.Controllers
 		public IActionResult RejectParticipant([FromBody] ParticipantToAccept participantToAccept)
 		{
 			return Ok(eventsService.RejectParticipant(participantToAccept));
+		}
+
+		[HttpPatch("patchevent")]
+		public IActionResult PatchEvent([FromBody] Event eventToPatch)
+		{
+			return Ok(eventsService.UpdateEvent(eventToPatch));
 		}
 	}
 }

@@ -1,4 +1,26 @@
 <div class="box">
+  <div class="columns" *ngIf="events && events.length > 0">
+    <div class="column is-10 is-offset-1">
+      <table class="table is-fullwidth">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nazwa wydarzenia</th>
+            <th>Data wydarzenia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let event of events; let i = index;" [attr.data-index]="event.id">
+            <tr (click)="selectRow(event);">
+              <th>{{event.id}}</th>
+              <th>{{event.eventName}}</th>
+              <th>{{event.date | date: 'dd/MM/yyyy HH:mm'}}</th>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
   <div class="container is-fluid">
     <div class="has-text-centered">
       <h1 class="is-size-3">
@@ -26,9 +48,17 @@
             {{ getPickedDate() }}
           </h1>
         </div>
-        <button class="button is-primary is-fullwidth is-medium" (click)="submitForm();">
+        <button *ngIf="!currentEditedEvent" class="button is-primary is-fullwidth is-medium" (click)="submitForm();">
           Dodaj wydarzenie
         </button>
+        <ng-container *ngIf="currentEditedEvent">
+          <button class="button is-primary is-fullwidth is-medium" (click)="updateEvent();">
+            Aktualizuj wydarzenie
+          </button>
+          <button class="button is-warning is-fullwidth is-medium" (click)="cancel();">
+            Anuluj
+          </button>
+        </ng-container>
       </form>
     </div>
   </div>

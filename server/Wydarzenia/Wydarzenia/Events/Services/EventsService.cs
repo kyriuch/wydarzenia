@@ -13,7 +13,7 @@ namespace Wydarzenia.Events.Services
 {
 	public interface IEventsService
 	{
-		void AddNewEvent(NewEvent newEvent);
+		Event AddNewEvent(NewEvent newEvent);
 		ICollection<Event> GetEvents();
 		ICollection<Event> GetEventsWithParticipants();
 		ICollection<UserOut> GetUsers(int eventId);
@@ -21,6 +21,7 @@ namespace Wydarzenia.Events.Services
 		ICollection<ParticipantToAccept> GetParticipantsToAccept();
 		ParticipantToAccept AcceptParticipant(ParticipantToAccept participantToAccept);
 		ParticipantToAccept RejectParticipant(ParticipantToAccept participantToAccept);
+		Event UpdateEvent(Event myEvent);
 	}
 
 	public class EventsService : IEventsService
@@ -36,12 +37,14 @@ namespace Wydarzenia.Events.Services
 			this.emailService = emailService;
 		}
 
-		public void AddNewEvent(NewEvent newEvent)
+		public Event AddNewEvent(NewEvent newEvent)
 		{
 			Event myEvent = mapper.Map<Event>(newEvent);
 			myEvent.Participants = new List<Participant>();
-			dataContext.Events.Add(myEvent);
+			Event returnEvent = dataContext.Events.Add(myEvent).Entity;
 			dataContext.SaveChanges();
+
+			return returnEvent;
 		}
 
 		public ICollection<Event> GetEvents()
@@ -160,6 +163,20 @@ namespace Wydarzenia.Events.Services
 				$"Niestety Twoja prośba o dołączenie do wydarzenia {participantToAccept.Event.EventName}.");
 
 			return participantToAccept;
+		}
+
+		public Event UpdateEvent(Event myEvent)
+		{
+			Event eventToEdit = dataContext.Events.Where(x => x.Id == myEvent.Id).FirstOrDefault();
+
+			eventToEdit.Agenda = myEvent.Agenda;
+			eventToEdit.Date = myEvent.Date;
+			eventToEdit.EventName = myEvent.EventName;
+
+			dataContext.Events.Update(eventToEdit);
+			dataContext.SaveChanges();
+
+			return eventToEdit;
 		}
 	}
 }
